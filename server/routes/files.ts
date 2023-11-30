@@ -17,7 +17,7 @@ router.post("/upload", upload.single("myFile"), async (req, res) => {
       return res.status(400).json({ message: "Hey bro! We need a file" });
     }
 
-    console.log(req.file);
+     console.log(req.file);
 
     let uploadedFile: UploadApiResponse;
     try {
