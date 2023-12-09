@@ -4,12 +4,17 @@ const Schema = mongoose.Schema;
 
 const fileSchema = new Schema(
   {
-    fileName: {
+    filename: {
       type: [] as string[],
       required: true,
     },
+
     secure_url: {
       type: [] as string[],
+      required: true,
+    },
+    format: {
+      type: [] as String[],
       required: true,
     },
     sizeInBytes: {
@@ -32,7 +37,7 @@ interface IFile extends Document {
   filename: string;
   secure_url: string;
   sizeInBytes: string;
-  formate: string;
+  format: string;
   sender?: string;
   receiver?: string;
 }

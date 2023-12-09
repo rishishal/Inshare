@@ -56,17 +56,14 @@ export default function Home() {
             file={{
               format: file.type.split("/")[1],
               name: file.name,
-              sizeBytes: file.size,
+              sizeInBytes: file.size,
             }}
           />
         )}
 
         {/* Upload File */}
         {!downloadPageLink && file && (
-          <button
-            className='p-2 my-5 bg-gray-900 rounded-md w-44 focus:outline-none'
-            onClick={handleUpload}
-          >
+          <button className='button' onClick={handleUpload}>
             {uploadState}
           </button>
         )}
@@ -75,10 +72,7 @@ export default function Home() {
           <div className='p-2 text-center'>
             <DownloadPage downloadPageLink={downloadPageLink} />
             {/* Email From */}
-            <button
-              className='p-2 my-5 bg-gray-900 rounded-md w-44 focus:outline-none'
-              onClick={resetComponent}
-            >
+            <button className='button' onClick={resetComponent}>
               Upload New File
             </button>
           </div>
