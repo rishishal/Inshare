@@ -1,6 +1,9 @@
+"use client";
 import { NextPage } from "next";
 import { IFile } from "../../../../libs/types";
 import RenderFile from "@/components/RenderFile";
+import axios from "axios";
+import fileDownload from "js-file-download";
 
 const page: NextPage<{ file: IFile }> = async ({
   params,
@@ -9,6 +12,17 @@ const page: NextPage<{ file: IFile }> = async ({
 }) => {
   const res = await fetch(`http://localhost:8000/api/files/${params.id}`);
   const data = await res.json();
+
+  const handleDownload = async () => {
+    const { data } = await axios.get(
+      `http://localhost:8000/api/files/${params.id}/download`,
+      {
+        responseType: "blob",
+      }
+    );
+
+    fileDownload(data, name);
+  };
 
   const { id, name, sizeInBytes, format } = data;
   return (
@@ -24,7 +38,9 @@ const page: NextPage<{ file: IFile }> = async ({
           />
           <h1 className='text-xl'>Your File is ready to be Downloaded</h1>
           <RenderFile file={{ format, name, sizeInBytes }} />
-          <button className='button'>Download</button>
+          <button className='button' onClick={handleDownload}>
+            Download
+          </button>
         </>
       )}
     </div>
