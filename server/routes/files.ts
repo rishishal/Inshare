@@ -3,7 +3,8 @@ import multer from "multer";
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import File from "../models/file";
 import axios, { AxiosResponse } from "axios";
-import { Response } from "express";
+import nodemailer from "nodemailer";
+import createEmailTemplate from "../utils/EmailTemplate";
 
 const router = express.Router();
 
@@ -49,7 +50,6 @@ router.post("/upload", upload.single("myFile"), async (req, res) => {
     res.status(200).json({
       id: file._id,
       downloadPageLink: `${process.env.API_BASE_ENDPOINT_CLIENT}download/${file._id}`,
-      secure_url: file.secure_url,
     });
   } catch (error) {
     console.error(error);
@@ -105,4 +105,53 @@ router.get("/:id/download", async (req, res) => {
   }
 });
 
+router.post("/email", async (req, res) => {
+  const { id, emailFrom, emailTo } = req.body;
+
+  const file = await File.findById(id);
+  if (!file) {
+    return res.status(404).json({ message: "File Does not Exist" });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
+    },
+  });
+  // process the e-mail data
+  const { filename, sizeInBytes } = file;
+  const fileSize = `${(Number(sizeInBytes) / (1024 * 1024)).toFixed(2)}MB`;
+  const downloadPageLink = `${process.env.API_BASE_ENDPOINT_CLIENT}download/${id}`;
+
+  const mailOptions = {
+    from: emailFrom, // sender address
+    to: emailTo, // list of receivers
+    subject: "File Sharing", // Subject line
+    text: `${emailFrom} shared a File with you`, // plain text body
+    html: createEmailTemplate(emailFrom, downloadPageLink, filename, fileSize), // html body
+  };
+
+  transporter.sendMail(mailOptions, async (error) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Server Error :(",
+      });
+    }
+
+    if (file) {
+      file.sender = emailFrom;
+      file.receiver = emailTo;
+
+      await file.save();
+    }
+    return res.status(200).json({
+      message: "Email Sent",
+    });
+  });
+});
 export default router;

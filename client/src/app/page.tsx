@@ -1,6 +1,7 @@
 "use client";
 import DownloadPage from "@/components/DownloadPage";
 import DropZone from "@/components/DropZone";
+import EmailForm from "@/components/EmailForm";
 import RenderFile from "@/components/RenderFile";
 import axios from "axios";
 import { useState } from "react";
@@ -71,7 +72,7 @@ export default function Home() {
         {downloadPageLink && (
           <div className='p-2 text-center'>
             <DownloadPage downloadPageLink={downloadPageLink} />
-            {/* Email From */}
+            <EmailForm id={id} />
             <button className='button' onClick={resetComponent}>
               Upload New File
             </button>

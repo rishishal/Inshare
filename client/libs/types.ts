@@ -3,5 +3,4 @@ export interface IFile {
   sizeInBytes: number;
   format: string;
   id?: string;
-  secure_url?: string;
 }
