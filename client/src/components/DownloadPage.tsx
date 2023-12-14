@@ -1,3 +1,5 @@
+"use client";
+import Image from "next/image";
 const DownloadPage = ({ downloadPageLink }) => {
   return (
     <div className='p-1 '>
@@ -7,10 +9,12 @@ const DownloadPage = ({ downloadPageLink }) => {
       </h1>
       <div className='flex space-x-3'>
         <span className='break-all'>{downloadPageLink}</span>
-        <img
+        <Image
           src='/copy.png'
           alt='Copy-Image'
-          className='w-8 h-8 object-contain cursor-pointer'
+          className='object-contain cursor-pointer'
+          height={80}
+          width={80}
           onClick={() => navigator.clipboard.writeText(downloadPageLink)}
         />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 import { Dispatch, FunctionComponent, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 
 const DropZone: FunctionComponent<{ setFile: Dispatch<any> }> = ({
   setFile,
@@ -32,10 +33,10 @@ const DropZone: FunctionComponent<{ setFile: Dispatch<any> }> = ({
         <input {...getInputProps()} />
         <div
           className={`flex flex-col items-center justify-center border-2 border-dashed border-yellow-light rounded-xl h-full space-y-3
-            ${!!isDragReject ? "border-red-500" : ""}
-            ${!!isDragAccept ? "border-green-500" : ""}`}
+            ${isDragReject ? "border-red-500" : ""}
+            ${isDragAccept ? "border-green-500" : ""}`}
         >
-          <img src='/folder.png' alt='folder' className='w-16 h-16' />
+          <Image src='/folder.png' alt='folder' width={100} height={80} />
           {isDragReject ? (
             <p>Sorry, This app only supported image and mp3</p>
           ) : (

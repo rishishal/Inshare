@@ -4,6 +4,7 @@ import { IFile } from "../../../../libs/types";
 import RenderFile from "@/components/RenderFile";
 import axios from "axios";
 import fileDownload from "js-file-download";
+import Image from "next/image";
 
 const page: NextPage<{ file: IFile }> = async ({
   params,
@@ -31,10 +32,12 @@ const page: NextPage<{ file: IFile }> = async ({
         <span>oops! Fide dose not exist! check the URL</span>
       ) : (
         <>
-          <img
+          <Image
             src='/file-download.png'
             alt='File Image'
-            className='w-16 h-16'
+            // className='w-16 h-16'
+            width={80}
+            height={80}
           />
           <h1 className='text-xl'>Your File is ready to be Downloaded</h1>
           <RenderFile file={{ format, name, sizeInBytes }} />
