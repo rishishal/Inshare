@@ -14,7 +14,7 @@ export default function Home() {
     "Uploading" | "Upload Failed" | "Uploaded" | "Upload"
   >("Upload");
 
-  axios.defaults.baseURL = "http://localhost:8000/";
+  axios.defaults.baseURL = "https://charming-tux-ant.cyclic.app/";
 
   const handleUpload = async () => {
     if (uploadState === "Uploading") return;

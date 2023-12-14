@@ -11,12 +11,12 @@ const page: NextPage<{ file: IFile }> = async ({
 }: {
   params: { id: string };
 }) => {
-  const res = await fetch(`http://localhost:8000/api/files/${params.id}`);
+  const res = await fetch(`https://charming-tux-ant.cyclic.app/${params.id}`);
   const data = await res.json();
 
   const handleDownload = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/files/${params.id}/download`,
+      `https://charming-tux-ant.cyclic.app/${params.id}/download`,
       {
         responseType: "blob",
       }
